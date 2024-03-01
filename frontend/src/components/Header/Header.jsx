@@ -18,15 +18,13 @@ const Header = () => {
         </IconButton>
         <input type="text" placeholder='Search' className='flex-grow px-5 text-base bg-transparent outline-none' />
 
-
+   
       </div>
       <IconButton color='gray' variant='text' size='md'>
         <img src="/apps.png" alt="" />
       </IconButton>   
 
-      <IconButton color='gray' variant='text' size='lg'>
-        <i class="fa-regular fa-circle"></i>
-      </IconButton> 
+      <img loading='lazy' src="" alt="" className='hidden cursor-pointer h-12 w-12 rounded-full ml-2' />
     </header>
   )
 }
