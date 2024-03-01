@@ -8,7 +8,8 @@ const Header = () => {
         <i class="fa-solid fa-bars" />
       </IconButton>
       <IconButton color='blue' variant='text' size='lg'>
-        <i class="fa fa-file-text" />
+        {/* <i class="fa fa-file-text" /> */}
+        <img src="/docs.png" alt="" srcset="" />
       </IconButton>
       <h1 className='ml-2 text-gray-700 text-xl'>Docs</h1>
 

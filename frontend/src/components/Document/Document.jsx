@@ -11,6 +11,8 @@ import {
     Input,
     Checkbox,
 } from "@material-tailwind/react";
+import { ToastContainer, toast } from 'react-toastify';
+import DocumentRow from '../DocumentRow/DocumentRow';
 
 
 
@@ -25,6 +27,7 @@ const Document = () => {
         if (!input) {
             return
         }
+        toast("Documents Created!")
         setInput("")
         setOpen(false)
     };
@@ -38,7 +41,7 @@ const Document = () => {
         >
             <Card className="mx-auto w-full max-w-[24rem]">
                 <CardBody className="flex flex-col gap-4">
-                    <Input label="Enter name of document" value={input} onChange={(e) => setInput(e.target.value)} type='text' size="lg" onKeyDown={(e) => e.key === "Enter"  && createDocument()} />
+                    <Input label="Enter name of document" value={input} onChange={(e) => setInput(e.target.value)} type='text' size="lg" onKeyDown={(e) => e.key === "Enter" && createDocument()} />
                 </CardBody>
                 <CardFooter className="pt-0">
                     <Button variant="gradient" onClick={createDocument} fullWidth color='blue'>
@@ -58,7 +61,7 @@ const Document = () => {
             {Modal}
             <section className='bg-[#F8F9FA] pb-2 px-10'>
                 <div className='max-w-3xl mx-auto'>
-                    <div className='flex items-center justify-between py-6'>
+                    <div className='flex items-center justify-between py-6' >
                         <h2 className='text-gray-700 text-lg'>Start a new document</h2>
 
                         <IconButton color='gray' variant='text' size='md'>
@@ -66,8 +69,8 @@ const Document = () => {
                         </IconButton>
                     </div>
 
-                    <div onClick={handleOpen}>
-                        <div className='relative h-52 w-40 border-2 cursor-pointer hover:border-blue-700'>
+                    <div>
+                        <div className='relative h-52 w-40 border-2 cursor-pointer hover:border-blue-700' onClick={handleOpen}>
                             <img src="https://links.papareact.com/pju" alt="fill" />
                         </div>
                         <p className='ml-2 mt-2 font-semibold text-sm text-gray-700'>Blank</p>
@@ -84,6 +87,7 @@ const Document = () => {
                             <i class="fa-solid fa-folder"></i>
                         </IconButton>
                     </div>
+                    <DocumentRow />
                 </div>
             </section>
         </div>
