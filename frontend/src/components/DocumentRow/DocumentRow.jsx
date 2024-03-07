@@ -7,7 +7,7 @@ const DocumentRow = () => {
     return (
         <div className='flex items-center p-4 rounded-lg hover:bg-gray-100 text-gray-700 text-sm cursor-pointer'>
             <IconButton color='blue' variant='text' size='sm'>
-                <img src="/docs.png" alt="" srcset="" />
+                <img src="/docs.png" alt="" srcSet='' />
             </IconButton>
             <Link to="/doc" className='flex-grow pl-5 w-10 pr-10 truncate font-bold'>
                 Test
