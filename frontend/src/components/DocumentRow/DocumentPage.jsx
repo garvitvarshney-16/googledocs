@@ -1,5 +1,7 @@
 import React from 'react'
 import { IconButton } from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
+import TextEditor from '../TextEditor/TextEditor';
 
 
 const DocumentPage = () => {
@@ -12,7 +14,7 @@ const DocumentPage = () => {
         </IconButton>
 
         <div className='flex-grow px-2'>
-          <h2></h2>
+          <h2>Text</h2>
           <div className='flex items-center text-sm space-x-1 -ml-1 h-8 text-gray-600'>
             <p className='cursor-pointer hover:bg-gray-100 transition duration-200 ease-out p-2 rounded-lg'>File</p>
             <p className='cursor-pointer hover:bg-gray-100 transition duration-200 ease-out p-2 rounded-lg'>Edit</p>
@@ -23,14 +25,13 @@ const DocumentPage = () => {
           </div>
         </div>
 
-        <button color='blue'>
-          Share
-        </button>
+        <Button color="blue" size='sm' className='hidden md:inline-flex'>Share</Button>
 
         <img className='cursor-pointer rounded-full h-10 w-10 ml-2' src="/googleicon.png" alt="" />
       </header>
 
       {/* TextEditor */}
+      <TextEditor />
     </div>
   )
 }
