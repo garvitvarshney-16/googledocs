@@ -84,7 +84,7 @@ const Document = () => {
                         <h2 className='font-medium flex-grow'>My Documents</h2>
                         <p className='mr-12'>Date Created</p>
                         <IconButton color='gray' variant='text' size='lg'>
-                            <i class="fa-solid fa-folder"></i>
+                            <i className="fa-solid fa-folder"></i>
                         </IconButton>
                     </div>
                     <DocumentRow />

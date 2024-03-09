@@ -37,13 +37,3 @@ const DocumentPage = () => {
 }
 
 export default DocumentPage;
-
-// export async function getServerSideProps(context) {
-//   const session = getSession(context);
-
-//   return {
-//     props:{
-
-//     }
-//   }
-// }
