@@ -2,6 +2,7 @@ import React from 'react'
 import { IconButton } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
 import TextEditor from '../TextEditor/TextEditor';
+import { Link } from 'react-router-dom';
 
 
 const DocumentPage = () => {
@@ -10,7 +11,9 @@ const DocumentPage = () => {
       <header className='flex justify-between items-center p-3 pb-1'>
         <IconButton color='blue' variant='text' size='lg'>
           {/* <i class="fa fa-file-text" /> */}
-          <img src="/docs.png" alt="" srcset="" />
+          <Link to="/">
+            <img src="/docs.png" alt="" srcset="" />
+          </Link>
         </IconButton>
 
         <div className='flex-grow px-2'>
