@@ -59,21 +59,31 @@ const Document = () => {
     return (
         <div>
             {Modal}
-            <section className='bg-[#F8F9FA] pb-2 px-10'>
+            <section className='bg-[#F8F9FA] pb-9 px-10'>
                 <div className='max-w-3xl mx-auto'>
                     <div className='flex items-center justify-between py-6' >
-                        <h2 className='text-gray-700 text-lg'>Start a new document</h2>
+                        <h2 className='text-gray-700 text-lg' style={{ fontFamily: 'sans-serif', color: 'black' }}>Start a new document</h2>
 
                         <IconButton color='gray' variant='text' size='md'>
                             <img src="/more_vert.png" alt="" />
                         </IconButton>
+
+
                     </div>
 
-                    <div>
+                    <div className='flex flex-row gap-5'>
                         <div className='relative h-52 w-40 border-2 cursor-pointer hover:border-blue-700' onClick={handleOpen}>
-                            <img src="https://links.papareact.com/pju" alt="fill" />
+                                <img src="https://links.papareact.com/pju" alt="fill" />
+                                <p className='ml-2 mt-2 font-semibold text-sm text-gray-700'>Blank</p>
                         </div>
-                        <p className='ml-2 mt-2 font-semibold text-sm text-gray-700'>Blank</p>
+                        <div className='relative h-52 w-40 border-2 cursor-pointer hover:border-blue-700' onClick={handleOpen}>
+                            <img src="./CV-Template-01.jpg" style={{ height: '100%', width: '100%' }} />
+                            <p className='ml-2 mt-2 font-semibold text-sm text-gray-700'>Resume</p>
+                        </div>
+                        <div className='relative h-52 w-40 border-2 cursor-pointer hover:border-blue-700' onClick={handleOpen}>
+                            <img src="./CV-Template-01.jpg" style={{ height: '100%', width: '100%' }} />
+                            <p className='ml-2 mt-2 font-semibold text-sm text-gray-700'>Resume</p>
+                        </div>
                     </div>
                 </div>
             </section>
