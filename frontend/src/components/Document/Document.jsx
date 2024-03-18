@@ -13,6 +13,9 @@ import {
 } from "@material-tailwind/react";
 import { ToastContainer, toast } from 'react-toastify';
 import DocumentRow from '../DocumentRow/DocumentRow';
+import { useDocumentContext } from '../../context/documentContext';
+import { useUserContext } from '../../context/userContext';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -21,15 +24,41 @@ const Document = () => {
     const [open, setOpen] = React.useState(false);
     const [input, setInput] = useState("")
     const handleOpen = () => setOpen((cur) => !cur);
+    const { createDoc } = useDocumentContext()
+    const { user } = useUserContext()
+    const navigate = useNavigate()
 
+    const createDocument = async () => {
+        try {
+            // Get the authenticated user's ObjectId
+            const userId = user._id;
 
-    const createDocument = () => {
-        if (!input) {
-            return
+            // Create the document with the user ObjectId
+            const documentId = await createDoc(input, '', userId); // Replace 'userIdHere' with actual userId
+
+            // Notify user and reset input
+            toast('Document created successfully!');
+            setInput('');
+            setOpen(false);
+
+            // Return the document id
+            return documentId;
+        } catch (error) {
+            console.error('Error creating document:', error);
+            toast.error('Failed to create document');
+            throw error; // Rethrow the error to handle it in the caller function if necessary
         }
-        toast("Documents Created!")
-        setInput("")
-        setOpen(false)
+    };
+
+
+    const handleNavigateToDocumentPage = async () => {
+        try {
+            const documentId = await createDocument();
+            const id = documentId._id;
+            navigate(`/doc/${id}`); // Navigate to the document page
+        } catch (error) {
+            console.error('Error navigating to document page:', error);
+        }
     };
 
     const Modal = (
@@ -44,7 +73,7 @@ const Document = () => {
                     <Input label="Enter name of document" value={input} onChange={(e) => setInput(e.target.value)} type='text' size="lg" onKeyDown={(e) => e.key === "Enter" && createDocument()} />
                 </CardBody>
                 <CardFooter className="pt-0">
-                    <Button variant="gradient" onClick={createDocument} fullWidth color='blue'>
+                    <Button variant="gradient" onClick={handleNavigateToDocumentPage} fullWidth color='blue'>
                         Create
                     </Button>
                 </CardFooter>
@@ -73,8 +102,8 @@ const Document = () => {
 
                     <div className='flex flex-row gap-5'>
                         <div className='relative h-52 w-40 border-2 cursor-pointer hover:border-blue-700' onClick={handleOpen}>
-                                <img src="https://links.papareact.com/pju" alt="fill" />
-                                <p className='ml-2 mt-2 font-semibold text-sm text-gray-700'>Blank</p>
+                            <img src="https://links.papareact.com/pju" alt="fill" />
+                            <p className='ml-2 mt-2 font-semibold text-sm text-gray-700'>Blank</p>
                         </div>
                         <div className='relative h-52 w-40 border-2 cursor-pointer hover:border-blue-700' onClick={handleOpen}>
                             <img src="./CV-Template-01.jpg" style={{ height: '100%', width: '100%' }} />

@@ -1,19 +1,15 @@
-import React, { useContext, useState } from 'react'
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth"
-import { auth } from "../../../firebase.js"
+import React from 'react';
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { auth } from "../../../firebase.js";
 import { IconButton, Button } from "@material-tailwind/react";
 import { useUserContext } from '../../context/userContext.jsx';
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
+  const navigate = useNavigate();
+  const { user, login } = useUserContext();
 
-  const navigate = useNavigate()
-
-  const [user, setUser] = useState(null);
-
-  const { login } = useUserContext()
-
-  const handleSubmit = async () => {
+  const handleSignIn = async () => {
     try {
       const provider = new GoogleAuthProvider();
       const { user } = await signInWithPopup(auth, provider);
@@ -25,20 +21,18 @@ const Header = () => {
         _id: user.uid,
       };
 
-      await login(inputs)
-      setUser(inputs)
-
+      await login(inputs);
     } catch (error) {
       console.error('Sign In Error:', error);
     }
   };
+
   return (
     <header className='sticky top-0 z-50 flex items-center px-1 py-2 shadow-md bg-white'>
       <IconButton color='blue' variant='text' size='lg'>
         <i className="fa-solid fa-bars" />
       </IconButton>
       <IconButton color='blue' variant='text' size='lg'>
-        {/* <i class="fa fa-file-text" /> */}
         <img src="/google-docs.png" alt="" srcSet='' />
       </IconButton>
       <h1 className='ml-2 text-gray-700 text-xl' style={{ fontFamily: '"Product Sans", Arial, sans-serif', color: 'gray', fontWeight: 'normal' }}>Docs</h1>
@@ -50,13 +44,11 @@ const Header = () => {
         <input type="text" placeholder='Search' className='flex-grow px-5 text-base bg-transparent outline-none' />
       </div>
 
-
-
       <IconButton color='gray' variant='text' size='md'>
         <img src="/apps.png" alt="" />
       </IconButton>
 
-      <Button color='gray' variant='text' size='md' onClick={handleSubmit}>
+      <Button color='gray' variant='text' size='md' onClick={handleSignIn}>
         <img
           src={user?.photo || "https://docs.material-tailwind.com/icons/google.svg"}
           alt={user ? "User Photo" : "Google Logo"}
@@ -64,7 +56,7 @@ const Header = () => {
         />
       </Button>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

@@ -3,9 +3,13 @@ import { IconButton } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
 import TextEditor from '../TextEditor/TextEditor';
 import { Link } from 'react-router-dom';
+import { useUserContext } from '../../context/userContext';
+import { useDocumentContext } from '../../context/documentContext';
 
 
 const DocumentPage = () => {
+  const { user } = useUserContext()
+  const { document } = useDocumentContext()
   return (
     <div>
       <header className='flex justify-between items-center p-3 pb-1'>
@@ -17,7 +21,7 @@ const DocumentPage = () => {
         </IconButton>
 
         <div className='flex-grow px-2'>
-          <h2>Text</h2>
+          <h2>{document.title}</h2>
           <div className='flex items-center text-sm space-x-1 -ml-1 h-8 text-gray-600'>
             <p className='cursor-pointer hover:bg-gray-100 transition duration-200 ease-out p-2 rounded-lg'>File</p>
             <p className='cursor-pointer hover:bg-gray-100 transition duration-200 ease-out p-2 rounded-lg'>Edit</p>
@@ -30,7 +34,13 @@ const DocumentPage = () => {
 
         <Button color="blue" size='sm' className='hidden md:inline-flex'>Share</Button>
 
-        <img className='cursor-pointer rounded-full h-10 w-10 ml-2' src="/googleicon.png" alt="" />
+        <Button color='gray' variant='text' size='md'>
+          <img
+            src={user?.photo || "https://docs.material-tailwind.com/icons/google.svg"}
+            alt={user ? "User Photo" : "Google Logo"}
+            style={{ height: '20px', width: '20px', borderRadius: '10px' }}
+          />
+        </Button>
       </header>
 
       {/* TextEditor */}

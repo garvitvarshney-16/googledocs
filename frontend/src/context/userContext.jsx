@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 const UserContext = createContext();
 
@@ -7,6 +7,13 @@ export const useUserContext = () => useContext(UserContext);
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const userStored = localStorage.getItem("user");
+        if (userStored) {
+            setUser(JSON.parse(userStored))
+        }
+    }, []);
 
     const login = async (inputs) => {
         try {
@@ -16,6 +23,7 @@ export const UserProvider = ({ children }) => {
             )
 
             if (res.data) {
+                localStorage.setItem("user", JSON.stringify(inputs))
                 setUser(res.data)
             } else {
                 console.error("Response is null")
