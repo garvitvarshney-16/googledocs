@@ -22,7 +22,7 @@ export const DocumentProvider = ({ children }) => {
                 setDocument(parsedUser);
             } catch (error) {
                 console.error("Error parsing user data from local storage:", error);
-                localStorage.removeItem("user"); // Clear invalid data from local storage
+                localStorage.removeItem("user");
             }
         }
     }, []);
