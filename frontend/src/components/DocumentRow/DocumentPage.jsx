@@ -1,27 +1,41 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { IconButton } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
 import TextEditor from '../TextEditor/TextEditor';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useUserContext } from '../../context/userContext';
 import { useDocumentContext } from '../../context/documentContext';
 
-
 const DocumentPage = () => {
-  const { user } = useUserContext()
-  const { document } = useDocumentContext()
+  const [document, setDocument] = useState();
+  const { user } = useUserContext();
+  const { getUserDocs } = useDocumentContext();
+  const { id } = useParams(); // Extracting ID from useParams()
+
+  useEffect(() => {
+    const fetchDocs = async () => {
+      try {
+        const allDocs = await getUserDocs();
+        const filteredDoc = allDocs.find(doc => doc._id === id);
+        setDocument(filteredDoc);
+      } catch (error) {
+        console.log('Error fetching documents', error);
+      }
+    };
+    fetchDocs();
+  }, []);
+
   return (
     <div>
       <header className='flex justify-between items-center p-3 pb-1'>
         <IconButton color='blue' variant='text' size='lg'>
-          {/* <i class="fa fa-file-text" /> */}
           <Link to="/">
             <img src="/docs.png" alt="" srcset="" />
           </Link>
         </IconButton>
 
         <div className='flex-grow px-2'>
-          <h2>{document.title}</h2>
+          <h2>{document?.title}</h2> {/* Accessing title from the document if it exists */}
           <div className='flex items-center text-sm space-x-1 -ml-1 h-8 text-gray-600'>
             <p className='cursor-pointer hover:bg-gray-100 transition duration-200 ease-out p-2 rounded-lg'>File</p>
             <p className='cursor-pointer hover:bg-gray-100 transition duration-200 ease-out p-2 rounded-lg'>Edit</p>
@@ -50,13 +64,3 @@ const DocumentPage = () => {
 }
 
 export default DocumentPage;
-
-// export async function getServerSideProps(context) {
-//   const session = getSession(context);
-
-//   return {
-//     props:{
-
-//     }
-//   }
-// }

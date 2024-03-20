@@ -39,7 +39,7 @@ export const DocumentProvider = ({ children }) => {
             }
         };
         fetchDocs();
-    }, []);
+    }, [docDetail]);
 
     const createDoc = async (title, content, userId) => {
         try {
