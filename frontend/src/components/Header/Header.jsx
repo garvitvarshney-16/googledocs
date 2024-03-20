@@ -4,6 +4,7 @@ import { auth } from "../../../firebase.js";
 import { IconButton, Button } from "@material-tailwind/react";
 import { useUserContext } from '../../context/userContext.jsx';
 import { useNavigate } from 'react-router-dom';
+import { SidebarWithBurgerMenu } from './SidebarWithBurgerMenu.jsx';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -25,13 +26,12 @@ const Header = () => {
     } catch (error) {
       console.error('Sign In Error:', error);
     }
-  };
+  }
 
   return (
-    <header className='sticky top-0 z-50 flex items-center px-1 py-2 shadow-md bg-white'>
-      <IconButton color='blue' variant='text' size='lg'>
-        <i className="fa-solid fa-bars" />
-      </IconButton>
+    <header className='sticky top-0 z-50 flex items-center px-5 py-2 shadow-md bg-white'>
+      <SidebarWithBurgerMenu />
+
       <IconButton color='blue' variant='text' size='lg'>
         <img src="/google-docs.png" alt="" srcSet='' />
       </IconButton>
@@ -52,7 +52,7 @@ const Header = () => {
         <img
           src={user?.photo || "https://docs.material-tailwind.com/icons/google.svg"}
           alt={user ? "User Photo" : "Google Logo"}
-          style={{height: '20px', width: '20px', borderRadius: '10px'}}
+          style={{ height: '20px', width: '20px', borderRadius: '10px' }}
         />
       </Button>
     </header>

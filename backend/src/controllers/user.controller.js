@@ -6,17 +6,13 @@ export const newUser = asyncHandler(async (req, res) => {
   console.log(req.body);
   const { _id, username, email, photo } = req.body;
 
-  console.log("_id:", _id);
-  console.log("name:", username);
-  console.log("email:", email);
-  console.log("photo:", photo);
-
   let user = await User.findById(_id);
 
   if (user) {
     return res.status(200).json({
       success: true,
       message: `Welcome, ${user.username}`,
+      user
     });
   }
 
@@ -34,5 +30,6 @@ export const newUser = asyncHandler(async (req, res) => {
   return res.status(200).json({
     success: true,
     message: `Welcome ${user.username}`,
+    user
   });
 });
