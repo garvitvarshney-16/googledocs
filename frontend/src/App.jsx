@@ -1,7 +1,7 @@
 import Document from './components/Document/Document'
 import DocumentPage from './components/DocumentRow/DocumentPage'
 import Header from './components/Header/Header'
-import { createBrowserRouter, RouterProvider, Route, Outlet } from "react-router-dom"
+import { createBrowserRouter, RouterProvider, Route, Outlet, Navigate } from "react-router-dom"
 
 const Layout = () => {
   return (
@@ -15,10 +15,10 @@ const Layout = () => {
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />
+    element: <Layout />,
   },
   {
-    path: '/doc',
+    path: '/doc/:id',
     element: <DocumentPage />
   },
 ])
