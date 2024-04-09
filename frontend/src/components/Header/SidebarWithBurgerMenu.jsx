@@ -31,6 +31,7 @@ import {
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { useUserContext } from "../../context/userContext";
  
 export function SidebarWithBurgerMenu() {
   const [open, setOpen] = React.useState(0);
@@ -40,6 +41,8 @@ export function SidebarWithBurgerMenu() {
   const handleOpen = (value) => {
     setOpen(open === value ? 0 : value);
   };
+
+  const {logout} = useUserContext()
  
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
@@ -95,7 +98,7 @@ export function SidebarWithBurgerMenu() {
               </ListItemPrefix>
               Settings
             </ListItem>
-            <ListItem>
+            <ListItem onClick={logout}>
               <ListItemPrefix>
                 <PowerIcon className="h-5 w-5" />
               </ListItemPrefix>

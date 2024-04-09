@@ -6,6 +6,7 @@ import './index.css'
 import { ThemeProvider } from "@material-tailwind/react";
 import { UserProvider } from './context/userContext.jsx';
 import { DocumentProvider } from './context/documentContext.jsx';
+import { ContentProvider } from './context/contentContext.jsx';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -13,7 +14,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ThemeProvider>
       <UserProvider>
         <DocumentProvider>
-          <App />
+          <ContentProvider>
+            <App />
+          </ContentProvider>
         </DocumentProvider>
       </UserProvider>
     </ThemeProvider>

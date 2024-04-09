@@ -1,4 +1,4 @@
-.ql-toolbar .ql-snow {
+/* .ql-toolbar .ql-snow {
     display: flex;
     justify-content: center;
     position: sticky;
@@ -8,13 +8,13 @@
     border: none !important;
 }
 
-/* .ql-container .ql-snow {
+.ql-container .ql-snow {
     width: 60%;
     background: #fff;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
     margin: 10px auto 10px auto !important;
     min-height: 100vh;
-} */
+}
 
 .ql-editor .ql-blank {
     width: 60%;
@@ -22,4 +22,8 @@
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
     margin: 10px auto 10px auto !important;
     min-height: 100vh;
+} */
+
+.ql-container.ql-snow {
+    height: 500px;
 }

@@ -75,7 +75,6 @@ export const DocumentProvider = ({ children }) => {
     const getUserDocs = () => {
         if (!user || !user._id) {
             // If user is not authenticated or user object is null, return an empty array
-            console.log("No user or user ID");
             return [];
         }
         const ans = docDetail.filter((doc) => doc.user === user._id);

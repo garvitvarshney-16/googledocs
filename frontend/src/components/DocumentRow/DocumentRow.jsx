@@ -9,7 +9,7 @@ const DocumentRow = () => {
 
     useEffect(() => {
         const fetchDocs = async () => {
-            try {
+            try {   
                 const allDocs = await getUserDocs()
                 setDocument(allDocs)
             } catch (error) {

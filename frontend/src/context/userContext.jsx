@@ -40,8 +40,14 @@ export const UserProvider = ({ children }) => {
         }
     };
 
+    const logout = async() => {
+        localStorage.removeItem("user");
+        localStorage.removeItem("document")
+        setUser(null);
+    }
+
     return (
-        <UserContext.Provider value={{ user, login }}>
+        <UserContext.Provider value={{ user, login, logout }}>
             {children}
         </UserContext.Provider>
     );

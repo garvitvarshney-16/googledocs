@@ -78,7 +78,7 @@ const TextEditor = () => {
         if (source === 'user' && socket) {
             socket.emit('send-changes', { id, content });
         }
-        // setValue(content);
+        setValue(content);
     };
 
     useEffect(() => {
