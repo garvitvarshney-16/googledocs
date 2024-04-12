@@ -4,14 +4,31 @@ import 'react-quill/dist/quill.snow.css';
 import '../../App.css'
 import { io } from "socket.io-client"
 import { useParams } from "react-router-dom"
+import { useDocumentContext } from '../../context/documentContext';
+import { useUserContext } from '../../context/userContext';
 
 
 const TextEditor = () => {
-
-    const [value, setValue] = useState('');
+    const [document, setDocument] = useState(null);
     const [socket, setSocket] = useState(null);
+    const { content, setContent, updateContent, getUserDocs } = useDocumentContext()
+    const [isModified, setIsModified] = useState(false);
 
     const { id } = useParams();
+
+    useEffect(() => {
+        const fetchDocs = async () => {
+            try {
+                const allDocs = await getUserDocs();
+                const filteredDoc = allDocs.find(doc => doc._id === id);
+                setDocument(filteredDoc);
+            } catch (error) {
+                console.log('Error fetching documents', error);
+            }
+        };
+        fetchDocs();
+    }, [id, getUserDocs]);
+
 
     const toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -45,13 +62,13 @@ const TextEditor = () => {
         socket.emit('get-document', id);
 
         socket.on('load-document', (data) => {
-            setValue(data);
+            setContent(data);
         })
 
         return () => {
             socket.disconnect()
         }
-    }, [id])
+    }, [id, setContent])
 
     // useEffect(() => {
     //     if (socket === null || value === null) {
@@ -78,7 +95,8 @@ const TextEditor = () => {
         if (source === 'user' && socket) {
             socket.emit('send-changes', { id, content });
         }
-        setValue(content);
+        setContent(content);
+        setIsModified(true);
     };
 
     useEffect(() => {
@@ -87,7 +105,7 @@ const TextEditor = () => {
         }
         const handleReceiveChanges = ({ id: docId, content }) => {
             if (docId === id) {
-                setValue(content);
+                setContent(content);
             }
         }
 
@@ -97,10 +115,16 @@ const TextEditor = () => {
             socket.off('receive-changes', handleReceiveChanges);
         }
 
-    }, [socket, id])
+    }, [socket, id, setContent])
 
+    useEffect(() => {
+        if (content && document) { // Check if content and document are both truthy
+            updateContent(document.title, content, id);
+            setIsModified(false);
+        }
+    }, [isModified,content, document, id, updateContent]);
     return (
-        <ReactQuill modules={module} theme='snow' value={value} onChange={handleChange} readOnly={!id} />
+        <ReactQuill modules={module} theme='snow' value={content} onChange={handleChange} readOnly={!id} />
     )
 }
 

@@ -9,6 +9,7 @@ export const useDocumentContext = () => useContext(DocumentContext)
 
 export const DocumentProvider = ({ children }) => {
 
+    const [content, setContent] = useState('')
     const [document, setDocument] = useState()
     const [docDetail, setDocDetail] = useState([])
     const { user } = useUserContext()
@@ -59,6 +60,20 @@ export const DocumentProvider = ({ children }) => {
         }
     }
 
+    const updateContent = async (title, content, id) => {
+        try {
+            const res = await axios.patch('http://localhost:8000/api/v1/document/updatecontent', {
+                title,
+                content,
+                id,
+            });
+            console.log(res.data);
+        } catch (error) {
+            console.error('Error creating document:', error);
+            throw error;
+        }
+    }
+
     const getAllDocs = async () => {
         try {
             const res = await axios.get('http://localhost:8000/api/v1/document/alldocs')
@@ -85,7 +100,7 @@ export const DocumentProvider = ({ children }) => {
     }
 
     return (
-        <DocumentContext.Provider value={{ document, createDoc, getAllDocs, getUserDocs }}>
+        <DocumentContext.Provider value={{ document, createDoc, getAllDocs, getUserDocs, content, setContent, updateContent }}>
             {children}
         </DocumentContext.Provider>
     )
