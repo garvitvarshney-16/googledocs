@@ -15,6 +15,8 @@ const Header = () => {
       const provider = new GoogleAuthProvider();
       const { user } = await signInWithPopup(auth, provider);
 
+      console.log(user);
+
       const inputs = {
         username: user.displayName,
         email: user.email,
