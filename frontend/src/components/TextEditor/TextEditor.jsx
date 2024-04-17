@@ -1,34 +1,69 @@
 import { useEffect, useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import '../../App.css'
 import { io } from "socket.io-client"
 import { useParams } from "react-router-dom"
 import { useDocumentContext } from '../../context/documentContext';
-import { useUserContext } from '../../context/userContext';
-
 
 const TextEditor = () => {
-    const [document, setDocument] = useState(null);
     const [socket, setSocket] = useState(null);
-    const { content, setContent, updateContent, getUserDocs } = useDocumentContext()
-    const [isModified, setIsModified] = useState(false);
-
     const { id } = useParams();
+    const { content, setContent, updateContent, fetchDocumentContent } = useDocumentContext();
+    const [cursorPosition, setCursorPosition] = useState(0); // Track cursor position
 
     useEffect(() => {
-        const fetchDocs = async () => {
+        const fetchData = async () => {
             try {
-                const allDocs = await getUserDocs();
-                const filteredDoc = allDocs.find(doc => doc._id === id);
-                setDocument(filteredDoc);
+                const fetchedContent = await fetchDocumentContent(id);
+                setContent(fetchedContent);
             } catch (error) {
-                console.log('Error fetching documents', error);
+                console.error('Error fetching document content:', error);
             }
         };
-        fetchDocs();
-    }, [id, getUserDocs]);
 
+        fetchData();
+
+        // Clean-up function
+        return () => {
+            if (socket) {
+                socket.disconnect();
+            }
+        };
+    }, [id, setContent, fetchDocumentContent, socket]);
+
+    useEffect(() => {
+        const newSocket = io('http://localhost:9000');
+        setSocket(newSocket);
+
+        newSocket.emit('get-document', id);
+
+        newSocket.on('load-document', (data) => {
+            setContent(data.content);
+            setCursorPosition(data.cursor || 0); // Set initial cursor position
+        });
+
+        newSocket.on('receive-changes', ({ content: updatedContent, cursor }) => {
+            setContent(updatedContent);
+            setCursorPosition(cursor || 0); // Update cursor position
+        });
+
+        // Clean-up function
+        return () => {
+            if (newSocket) {
+                newSocket.close();
+            }
+        };
+    }, [id, setContent]);
+
+    const handleChange = (value, delta, source, editor) => {
+        setContent(value);
+        if (socket && source === 'user') {
+            const cursor = editor.getSelection().index; // Get cursor position
+            setCursorPosition(cursor); // Update local cursor position
+            socket.emit('send-changes', { id, content: value, cursor });
+            updateContent(id, value);
+        }
+    };
 
     const toolbarOptions = [
         ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
@@ -51,82 +86,13 @@ const TextEditor = () => {
         ['clean']                                         // remove formatting button
     ];
 
-    const module = {
+    const modules = {
         toolbar: toolbarOptions,
-    }
-
-    useEffect(() => {
-        const socket = io('http://localhost:9000');
-        setSocket(socket);
-
-        socket.emit('get-document', id);
-
-        socket.on('load-document', (data) => {
-            setContent(data);
-        })
-
-        return () => {
-            socket.disconnect()
-        }
-    }, [id, setContent])
-
-    // useEffect(() => {
-    //     if (socket === null || value === null) {
-    //         return;
-    //     }
-
-    //     const handleChange = (delta, oldData, source) => {
-    //         if (source !== 'user') {
-    //             return;
-    //         }
-
-    //         socket && socket.emit('send-changes', delta)
-    //     }
-
-    //     value && value.on('text-change', handleChange)
-
-    //     return () => {
-    //         value && value.off('text-change', handleChange)
-    //     }
-    // }, [value, socket])
-
-
-    const handleChange = (content, delta, source, editor) => {
-        if (source === 'user' && socket) {
-            socket.emit('send-changes', { id, content });
-        }
-        setContent(content);
-        setIsModified(true);
     };
 
-    useEffect(() => {
-        if (!socket) {
-            return
-        }
-        const handleReceiveChanges = ({ id: docId, content }) => {
-            if (docId === id) {
-                setContent(content);
-            }
-        }
-
-        socket.on('receive-changes', handleReceiveChanges);
-
-        return () => {
-            socket.off('receive-changes', handleReceiveChanges);
-        }
-
-    }, [socket, id, setContent])
-
-    useEffect(() => {
-        if (content && document) { // Check if content and document are both truthy
-            updateContent(document.title, content, id);
-            setIsModified(false);
-        }
-    }, [isModified,content, document, id, updateContent]);
     return (
-        <ReactQuill modules={module} theme='snow' value={content} onChange={handleChange} readOnly={!id} />
-    )
-}
-
+        <ReactQuill modules={modules} theme='snow' value={content} onChange={handleChange} readOnly={!id} />
+    );
+};
 
 export default TextEditor;

@@ -17,8 +17,6 @@ import { useDocumentContext } from '../../context/documentContext';
 import { useUserContext } from '../../context/userContext';
 import { useNavigate } from 'react-router-dom';
 
-
-
 const Document = () => {
 
     const [open, setOpen] = React.useState(false);
@@ -49,7 +47,6 @@ const Document = () => {
             throw error; // Rethrow the error to handle it in the caller function if necessary
         }
     };
-
 
     const handleNavigateToDocumentPage = async () => {
         try {
@@ -88,37 +85,42 @@ const Document = () => {
     return (
         <div>
             {Modal}
-            <section className='bg-[#F8F9FA] pb-9 px-10'>
-                <div className='max-w-3xl mx-auto'>
+            <section className='bg-[#F8F9FA] pb-9 px-5 md:px-10'>
+                <div className='max-w-6xl mx-auto'>
                     <div className='flex items-center justify-between py-6' >
                         <h2 className='text-gray-700 text-lg' style={{ fontFamily: 'sans-serif', color: 'black' }}>Start a new document</h2>
-
                         <IconButton color='gray' variant='text' size='md'>
                             <img src="/more_vert.png" alt="" />
                         </IconButton>
-
-
                     </div>
-
-                    <div className='flex flex-row gap-5'>
-                        <div className='relative h-52 w-40 border-2 cursor-pointer hover:border-blue-700' onClick={handleOpen}>
-                            <img src="https://links.papareact.com/pju" alt="fill" />
+                    <div className='flex flex-wrap gap-5'>
+                        <div className='relative w-full sm:w-1/2 md:w-1/3 lg:w-1/6 h-60 border-2 cursor-pointer hover:border-blue-700' onClick={handleOpen}>
+                            <img src="https://links.papareact.com/pju" alt="fill" className="w-full h-full object-contain" />
                             <p className='ml-2 mt-2 font-semibold text-sm text-gray-700'>Blank</p>
                         </div>
-                        <div className='relative h-52 w-40 border-2 cursor-pointer hover:border-blue-700' onClick={handleOpen}>
-                            <img src="./CV-Template-01.jpg" style={{ height: '100%', width: '100%' }} />
+                        <div className='relative w-full sm:w-1/2 md:w-1/3 lg:w-1/6 h-60 border-2 cursor-pointer hover:border-blue-700' onClick={handleOpen}>
+                            <img src="./resume2.png" alt="fill" className="w-full h-full object-contain" />
                             <p className='ml-2 mt-2 font-semibold text-sm text-gray-700'>Resume</p>
                         </div>
-                        <div className='relative h-52 w-40 border-2 cursor-pointer hover:border-blue-700' onClick={handleOpen}>
-                            <img src="./CV-Template-01.jpg" style={{ height: '100%', width: '100%' }} />
-                            <p className='ml-2 mt-2 font-semibold text-sm text-gray-700'>Resume</p>
+                        <div className='relative w-full sm:w-1/2 md:w-1/3 lg:w-1/6 h-60 border-2 cursor-pointer hover:border-blue-700' onClick={handleOpen}>
+                            <img src="resume3.png" alt="fill" className="w-full h-full object-contain" />
+                            <p className='ml-2 mt-2 font-semibold text-sm text-gray-700'>Blank</p>
+                        </div>
+                        <div className='relative w-full sm:w-1/2 md:w-1/3 lg:w-1/6 h-60 border-2 cursor-pointer hover:border-blue-700' onClick={handleOpen}>
+                            <img src="./resume.png" alt="fill" className="w-full h-full object-contain" />
+                            <p className='ml-2 mt-2 font-semibold text-sm text-gray-700'>Project Proposal</p>
+                        </div>
+                        <div className='relative w-full sm:w-1/2 md:w-1/3 lg:w-1/6 h-60 border-2 cursor-pointer hover:border-blue-700' onClick={handleOpen}>
+                            <img src="./resume1.png" alt="fill" className="w-full h-full object-contain" />
+                            <p className='ml-2 mt-2 font-semibold text-sm text-gray-700'>Letter</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <section className='bg-white px-10 md:px-0'>
-                <div className='max-w-3xl mx-auto py-8 text-sm text-gray-700'>
+
+            <section className='bg-white px-2'>
+                <div className='max-w-6xl mx-auto py-5 text-sm text-gray-700'>
                     <div className='flex items-center justify-between pb-5'>
                         <h2 className='font-medium flex-grow'>My Documents</h2>
                         <p className='mr-12'>Date Created</p>

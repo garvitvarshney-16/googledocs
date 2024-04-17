@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { IconButton } from "@material-tailwind/react";
+import { Avatar, IconButton } from "@material-tailwind/react";
 import { Button } from "@material-tailwind/react";
 import TextEditor from '../TextEditor/TextEditor';
 import { Link, useParams } from 'react-router-dom';
@@ -9,13 +9,13 @@ import { useDocumentContext } from '../../context/documentContext';
 const DocumentPage = () => {
   const [document, setDocument] = useState();
   const { user } = useUserContext();
-  const { getUserDocs } = useDocumentContext();
+  const { getAllDocs } = useDocumentContext();
   const { id } = useParams(); // Extracting ID from useParams()
 
   useEffect(() => {
     const fetchDocs = async () => {
       try {
-        const allDocs = await getUserDocs();
+        const allDocs = await getAllDocs();
         const filteredDoc = allDocs.find(doc => doc._id === id);
         setDocument(filteredDoc);
       } catch (error) {
@@ -46,15 +46,17 @@ const DocumentPage = () => {
           </div>
         </div>
 
-        <Button color="blue" size='sm' className='hidden md:inline-flex'>Share</Button>
+        <div className='flex flex-row justify-evenly gap-2'>
+          <Button color="blue" size='sm'>Share</Button>
 
-        <Button color='gray' variant='text' size='md'>
-          <img
-            src={user?.photo || "https://docs.material-tailwind.com/icons/google.svg"}
+          <Avatar
+            size='sm'
+            variant="circular"
             alt={user ? "User Photo" : "Google Logo"}
-            style={{ height: '20px', width: '20px', borderRadius: '10px' }}
+            className="cursor-pointer"
+            src={user?.photo || "https://docs.material-tailwind.com/icons/google.svg"}
           />
-        </Button>
+        </div>
       </header>
 
       {/* TextEditor */}

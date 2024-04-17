@@ -10,7 +10,7 @@ export const useDocumentContext = () => useContext(DocumentContext)
 export const DocumentProvider = ({ children }) => {
 
     const [content, setContent] = useState('')
-    const [document, setDocument] = useState()
+    const [document, setDocument] = useState('')
     const [docDetail, setDocDetail] = useState([])
     const { user } = useUserContext()
     const [loading, setLoading] = useState(true);
@@ -60,14 +60,26 @@ export const DocumentProvider = ({ children }) => {
         }
     }
 
-    const updateContent = async (title, content, id) => {
+    const fetchDocumentContent = async (id) => {
         try {
-            const res = await axios.patch('http://localhost:8000/api/v1/document/updatecontent', {
-                title,
+            const response = await axios.get(`http://localhost:8000/api/v1/document/saved-content/${id}`);
+            if (response.status === 200) {
+                const data = response.data.content;
+                setContent(data);
+            } else {
+                console.error('Failed to fetch document content');
+            }
+            return response.data.content;
+        } catch (error) {
+            console.error('Error fetching document content:', error);
+        }
+    };
+
+    const updateContent = async (id, content) => {
+        try {
+            const res = await axios.post(`http://localhost:8000/api/v1/document/updatecontent/${id}`, {
                 content,
-                id,
             });
-            console.log(res.data);
         } catch (error) {
             console.error('Error creating document:', error);
             throw error;
@@ -76,7 +88,9 @@ export const DocumentProvider = ({ children }) => {
 
     const getAllDocs = async () => {
         try {
-            const res = await axios.get('http://localhost:8000/api/v1/document/alldocs')
+            const user = JSON.parse(localStorage.getItem('user'))
+            const id = user._id;
+            const res = await axios.get(`http://localhost:8000/api/v1/document/alldocs/${id}`)
             if (!res) {
                 throw new Error("Resonse is not fetched")
             }
@@ -86,21 +100,12 @@ export const DocumentProvider = ({ children }) => {
             throw error;
         }
     }
-
-    const getUserDocs = () => {
-        if (!user || !user._id) {
-            // If user is not authenticated or user object is null, return an empty array
-            return [];
-        }
-        const ans = docDetail.filter((doc) => doc.user === user._id);
-        return ans
-    };
     if (loading) {
         return <div>Loading...</div>;
     }
 
     return (
-        <DocumentContext.Provider value={{ document, createDoc, getAllDocs, getUserDocs, content, setContent, updateContent }}>
+        <DocumentContext.Provider value={{ document, createDoc, getAllDocs, content, setContent, updateContent, fetchDocumentContent }}>
             {children}
         </DocumentContext.Provider>
     )

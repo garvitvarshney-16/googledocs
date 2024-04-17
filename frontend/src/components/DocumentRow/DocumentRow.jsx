@@ -16,10 +16,11 @@ import {
 } from '@material-tailwind/react'
 import { Link } from 'react-router-dom';
 import { useDocumentContext } from '../../context/documentContext';
+import axios from 'axios';
 
 const DocumentRow = () => {
 
-    const { getUserDocs } = useDocumentContext()
+    const { getAllDocs, setContent, fetchDocumentContent } = useDocumentContext()
     const [document, setDocument] = useState([]);
     const [open, setOpen] = useState(false);
     const [newTitle, setNewTitle] = useState('');
@@ -30,14 +31,14 @@ const DocumentRow = () => {
     useEffect(() => {
         const fetchDocs = async () => {
             try {
-                const allDocs = await getUserDocs()
+                const allDocs = await getAllDocs()
                 setDocument(allDocs)
             } catch (error) {
                 console.log('Error fetching documents', error);
             }
         }
         fetchDocs();
-    }, [getUserDocs])
+    }, [getAllDocs])
 
 
     const updateTitle = async () => {
@@ -95,6 +96,8 @@ const DocumentRow = () => {
         handleOpen();
     }
 
+
+
     const MessageDialog = (
         <Dialog open={open} size="xs" handler={handleOpen}>
             <DialogBody>
@@ -123,29 +126,32 @@ const DocumentRow = () => {
     return (
         <>
             {MessageDialog}
-            {document.map((doc) => (
-                <div key={doc._id} className='flex items-center p-4 rounded-lg hover:bg-gray-100 text-gray-700 text-sm cursor-pointer'>
-                    <IconButton color='blue' variant='text' size='sm'>
-                        <img src="/docs.png" alt="" srcSet='' />
-                    </IconButton>
-                    <Link to={`/doc/${doc._id}`} className='flex-grow pl-5 w-10 pr-10 truncate font-bold'>
-                        {doc.title}
-                    </Link>
-                    <p className="pr-5 text-sm">{new Date(doc.createdAt).toLocaleDateString()}</p>
+            <div>
+                {document.map((doc) => (
+                    <div key={doc._id} className='flex items-center p-4 rounded-lg hover:bg-gray-100 text-gray-700 text-sm cursor-pointer'>
+                        <IconButton color='blue' variant='text' size='sm'>
+                            <img src="/docs.png" alt="" srcSet='' />
+                        </IconButton>
+                        <Link to={`/doc/${doc._id}`} className='flex-grow pl-5 w-10 pr-10 truncate font-bold'>
+                            {doc.title}
+                        </Link>
+                        <p className="pr-5 text-sm">{new Date(doc.createdAt).toLocaleDateString()}</p>
 
 
 
-                    <Menu>
-                        <MenuHandler>
-                            <i class="fa-solid fa-ellipsis-vertical"></i>
-                        </MenuHandler>
-                        <MenuList>
-                            <MenuItem onClick={() => handleOpenWithId(doc._id)}><i class="fa-regular fa-pen-to-square"></i> Rename</MenuItem>
-                            <MenuItem onClick={() => deleteDoc(doc._id)}><i class="fa-solid fa-trash"></i> Remove</MenuItem>
-                        </MenuList>
-                    </Menu>
-                </div>
-            ))}
+                        <Menu>
+                            <MenuHandler>
+                                <i class="fa-solid fa-ellipsis-vertical"></i>
+                            </MenuHandler>
+                            <MenuList>
+                                <MenuItem onClick={() => handleOpenWithId(doc._id)}><i class="fa-regular fa-pen-to-square"></i> Rename</MenuItem>
+                                <MenuItem onClick={() => deleteDoc(doc._id)}><i class="fa-solid fa-trash"></i> Remove</MenuItem>
+                            </MenuList>
+                        </Menu>
+                    </div>
+                ))}
+            </div>
+
         </>
     )
 }
