@@ -44,7 +44,7 @@ export const DocumentProvider = ({ children }) => {
 
     const createDoc = async (title, content, userId) => {
         try {
-            const res = await axios.post('http://localhost:8000/api/v1/document/newdoc', {
+            const res = await axios.post('https://googledocs-u3am.onrender.com/api/v1/document/newdoc', {
                 title,
                 content,
                 userId,
@@ -62,7 +62,7 @@ export const DocumentProvider = ({ children }) => {
 
     const fetchDocumentContent = async (id) => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/v1/document/saved-content/${id}`);
+            const response = await axios.get(`https://googledocs-u3am.onrender.com/api/v1/document/saved-content/${id}`);
             if (response.status === 200) {
                 const data = response.data.content;
                 setContent(data);
@@ -77,7 +77,7 @@ export const DocumentProvider = ({ children }) => {
 
     const updateContent = async (id, content) => {
         try {
-            const res = await axios.post(`http://localhost:8000/api/v1/document/updatecontent/${id}`, {
+            const res = await axios.post(`https://googledocs-u3am.onrender.com/api/v1/document/updatecontent/${id}`, {
                 content,
             });
         } catch (error) {
@@ -90,7 +90,7 @@ export const DocumentProvider = ({ children }) => {
         try {
             const user = JSON.parse(localStorage.getItem('user'))
             const id = user._id;
-            const res = await axios.get(`http://localhost:8000/api/v1/document/alldocs/${id}`)
+            const res = await axios.get(`https://googledocs-u3am.onrender.com/api/v1/document/alldocs/${id}`)
             if (!res) {
                 throw new Error("Resonse is not fetched")
             }

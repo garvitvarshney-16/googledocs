@@ -48,7 +48,7 @@ const DocumentRow = () => {
                 return;
             }
             // Send the updated title and document ID to the server
-            const response = await fetch(`http://localhost:8000/api/v1/document/updatetitle/${selectedDocumentId}`, {
+            const response = await fetch(`https://googledocs-u3am.onrender.com/api/v1/document/updatetitle/${selectedDocumentId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ const DocumentRow = () => {
                 return;
             }
 
-            const res = await fetch(`http://localhost:8000/api/v1/document/${DocId}`, {
+            const res = await fetch(`https://googledocs-u3am.onrender.com/api/v1/document/${DocId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

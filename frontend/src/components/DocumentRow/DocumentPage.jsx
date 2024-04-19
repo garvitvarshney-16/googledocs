@@ -41,7 +41,7 @@ const DocumentPage = () => {
 
   const handleShare = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/api/v1/user/share', {
+      const response = await axios.post('https://googledocs-u3am.onrender.com/api/v1/user/share', {
         email,
         link,
         message,
