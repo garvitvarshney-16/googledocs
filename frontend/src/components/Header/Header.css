@@ -1,0 +1,27 @@
+/* Ensure the outermost header is using Flexbox and justifies content */
+.desktop-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+  
+  /* Responsive behavior for the search bar */
+  .search-bar {
+    flex: 1; /* Allows the search bar to grow and fill the available space */
+    margin: 0 1rem; /* Adds margin for spacing */
+  }
+  
+  /* Styling for the left and right sections of the header */
+  .header-left, .header-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Media query to ensure responsive adjustments */
+  @media (max-width: 768px) {
+    .search-bar {
+      display: none; /* Hides the search bar on smaller screens if needed */
+    }
+  }
+  
