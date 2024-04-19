@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import { connectDB } from "./db/index.js";
+import { connectDB} from "./db/index.js";
 import { app } from "./app.js";
 import UserRouter from "./routes/user.routes.js"
 import DocumentRouter from "./routes/document.routes.js"
