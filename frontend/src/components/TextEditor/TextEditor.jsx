@@ -32,7 +32,7 @@ const TextEditor = () => {
     }, [id, setContent, fetchDocumentContent, socket]);
 
     useEffect(() => {
-        const newSocket = io('http://localhost:9000');
+        const newSocket = io('https://googledocs-1.onrender.com/');
         setSocket(newSocket);
 
         newSocket.emit('get-document', id);
