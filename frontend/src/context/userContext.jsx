@@ -24,7 +24,7 @@ export const UserProvider = ({ children }) => {
     const login = async (inputs) => {
         try {
             const res = await axios.post(
-                "https://googledocs-u3am.onrender.com/api/v1/user/new",
+                "http://localhost:8000/api/v1/user/new",
                 inputs,
             );
             if (res.data) {
